@@ -44,23 +44,9 @@
         public string Gender { get; set; }
         public string Weight { get; set; }
         public string Ward { get; set; }
-
         public AmbientData[] AmbientData { get; set; }
-
-        public string[] FEV1 { get; set; }
-        public string[] FVC { get; set; }
-        public string[] FEV1I { get; set; }
-        public string[] MMEF { get; set; }
-        public string[] MEF50 { get; set; }
-        public string[] PEF { get; set; }
-
-        public string[] DLCO { get; set; }
-        public string[] DLCOc { get; set; }
-        public string[] KCO { get; set; }
-        public string[] KCOc { get; set; }
-        public string[] VA { get; set; }
-        public string[] Hb { get; set; }
-
+        public string[][] SpirometryData { get; set; }
+        public string[][] DiffusionData { get; set; }
         public string TechnicianNotes { get; set; }
         public string Interpretation { get; set; }
     }

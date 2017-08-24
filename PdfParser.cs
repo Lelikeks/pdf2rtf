@@ -12,15 +12,15 @@ namespace pdf2rtf
     {
         static TextCapture[] _simpleCaptures =
         {
-            new TextCapture("Patient Id (.+) Visit ID (.+)", nameof(ReportData.PatientId), nameof(ReportData.VisitID)),
-            new TextCapture("Last name (.+) Smoker (.+)", nameof(ReportData.LastName), nameof(ReportData.Smoker)),
-            new TextCapture("First name (.+) Pack years (.+)", nameof(ReportData.FirstName), nameof(ReportData.PackYears)),
-            new TextCapture("Date of birth (.+) BMI (.+)", nameof(ReportData.DateOfBirth), nameof(ReportData.BMI)),
-            new TextCapture("Age (.+) Gender (.+)", nameof(ReportData.Age), nameof(ReportData.Gender)),
-            new TextCapture("Height (.+) Weight (.+)", nameof(ReportData.Height), nameof(ReportData.Weight)),
-            new TextCapture("History (.+)", nameof(ReportData.History)),
-            new TextCapture("Physician (.+) Ward (.+)", nameof(ReportData.Physician), nameof(ReportData.Ward)),
-            new TextCapture("Insurance (.+)", nameof(ReportData.Insurance)),
+            new TextCapture("Patient Id *(.*) Visit ID *(.*)", nameof(ReportData.PatientId), nameof(ReportData.VisitID)),
+            new TextCapture("Last name *(.*) Smoker *(.*)", nameof(ReportData.LastName), nameof(ReportData.Smoker)),
+            new TextCapture("First name *(.*) Pack years *(.*)", nameof(ReportData.FirstName), nameof(ReportData.PackYears)),
+            new TextCapture("Date of birth *(.*) BMI *(.*)", nameof(ReportData.DateOfBirth), nameof(ReportData.BMI)),
+            new TextCapture("Age *(.*) Gender *(.*)", nameof(ReportData.Age), nameof(ReportData.Gender)),
+            new TextCapture("Height *(.*) Weight *(.*)", nameof(ReportData.Height), nameof(ReportData.Weight)),
+            new TextCapture("History *(.*)", nameof(ReportData.History)),
+            new TextCapture("Physician *(.*) Ward *(.*)", nameof(ReportData.Physician), nameof(ReportData.Ward)),
+            new TextCapture("Insurance *(.*)", nameof(ReportData.Insurance)),
         };
 
         static TextCapture[] _ambientCaptures =
@@ -33,32 +33,32 @@ namespace pdf2rtf
 
         static TextCapture[] _spirometrySixCaptures =
         {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.FEV1)),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.FVC)),
-            new TextCapture(@"FEV1%I \[%\](.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.FEV1I)),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.MMEF)),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.MEF50)),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)", nameof(ReportData.PEF)),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FEV1%I \[%\](.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
         };
 
         static TextCapture[] _spirometryThreeCaptures =
 {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-)", nameof(ReportData.FEV1)),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-)", nameof(ReportData.FVC)),
-            new TextCapture(@"FEV1%I \[%\](.+) (.+) (.+%|-)", nameof(ReportData.FEV1I)),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-)", nameof(ReportData.MMEF)),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-)", nameof(ReportData.MEF50)),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-)", nameof(ReportData.PEF)),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"FEV1%I \[%\](.+) (.+) (.+%|-)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-)"),
         };
 
         static TextCapture[] _diffusionCaptures =
         {
-            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+%|-)", nameof(ReportData.DLCO)),
-            new TextCapture(@"DLCOc \[ml/min/mmHg\] (.+) (.+) (.+%|-)", nameof(ReportData.DLCOc)),
-            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)", nameof(ReportData.KCO)),
-            new TextCapture(@"KCOc \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)", nameof(ReportData.KCOc)),
-            new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-)", nameof(ReportData.VA)),
-            new TextCapture(@"Hb \[mmol/L\] (.+) (.+) (.+%|-)", nameof(ReportData.Hb)),
+            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"DLCOc \[ml/min/mmHg\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"KCOc \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"Hb \[mmol/L\] (.+) (.+) (.+%|-)"),
         };
 
         public static ReportData Parse(string fileName)
@@ -70,14 +70,38 @@ namespace pdf2rtf
             var data = new ReportData();
 
             ParseTitle(data, lines);
-            ParseAmbient(lines, data);
+            ParseAmbient(data, lines);
             ParseSpirometry(data, lines);
             ParseDiffusion(data, lines);
+            ParseNotes(data, lines);
 
             return data;
         }
 
-        private static void ParseAmbient(List<string> lines, ReportData data)
+        private static void ParseNotes(ReportData data, List<string> lines)
+        {
+            var line = lines.FirstOrDefault(l => l == "Technician notes");
+            if (line != null)
+            {
+                var index = lines.IndexOf(line);
+                if (lines.Count > index + 1 && lines[index + 1] != "Interpretation")
+                {
+                    data.TechnicianNotes = lines[index + 1];
+                }
+            }
+
+            line = lines.FirstOrDefault(l => l == "Interpretation");
+            if (line != null)
+            {
+                var index = lines.IndexOf(line);
+                for (int i = index + 1; i < lines.Count - 2; i++)
+                {
+                    data.Interpretation += lines[i];
+                }
+            }
+        }
+
+        private static void ParseAmbient(ReportData data, List<string> lines)
         {
             var match = lines.Select(l => _ambientMeasured.Match(l)).FirstOrDefault(m => m.Success);
             if (match == null)
@@ -137,24 +161,23 @@ namespace pdf2rtf
 
         private static void ParseDiffusion(ReportData data, List<string> lines)
         {
-            foreach (var capture in _diffusionCaptures)
+            data.DiffusionData = new string[6][];
+            for (int i = 0; i < 6; i++)
             {
-                var match = lines.Select(l => capture.Match(l)).FirstOrDefault(m => m.Success);
+                var match = lines.Select(l => _diffusionCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match == null)
                 {
                     data.DiffusionType = DiffusionType.None;
+                    data.DiffusionData = null;
                     return;
                 }
                 else
                 {
-                    var innerData = new string[3];
-                    for (int i = 0; i < 3; i++)
+                    data.DiffusionData[i] = new string[3];
+                    for (int j = 0; j < 3; j++)
                     {
-                        innerData[i] = match.Groups[i + 1].Value;
+                        data.DiffusionData[i][j] = match.Groups[j + 1].Value;
                     }
-
-                    var prop = typeof(ReportData).GetProperty(capture.Properties[0]);
-                    prop.SetValue(data, innerData);
 
                     lines.Remove(match.Value);
                 }
@@ -172,21 +195,19 @@ namespace pdf2rtf
 
         private static void ParseSpirometry(ReportData data, List<string> lines)
         {
-            foreach (var capture in _spirometrySixCaptures)
+            data.SpirometryData = new string[6][];
+            for (int i = 0; i < 6; i++)
             {
-                var match = lines.Select(l => capture.Match(l)).FirstOrDefault(m => m.Success);
+                var match = lines.Select(l => _spirometrySixCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match != null)
                 {
                     data.SpirometryType = SpirometryType.SixColumn;
 
-                    var innerData = new string[6];
-                    for (int i = 0; i < 6; i++)
+                    data.SpirometryData[i] = new string[6];
+                    for (int j = 0; j < 6; j++)
                     {
-                        innerData[i] = match.Groups[i + 1].Value;
+                        data.SpirometryData[i][j] = match.Groups[j + 1].Value;
                     }
-
-                    var prop = typeof(ReportData).GetProperty(capture.Properties[0]);
-                    prop.SetValue(data, innerData);
 
                     lines.Remove(match.Value);
                 }
@@ -196,21 +217,18 @@ namespace pdf2rtf
                 return;
             }
 
-            foreach (var capture in _spirometryThreeCaptures)
+            for (int i = 0; i < 6; i++)
             {
-                var match = lines.Select(l => capture.Match(l)).FirstOrDefault(m => m.Success);
+                var match = lines.Select(l => _spirometryThreeCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match != null)
                 {
                     data.SpirometryType = SpirometryType.ThreeColumn;
 
-                    var innerData = new string[3];
-                    for (int i = 0; i < 3; i++)
+                    data.SpirometryData[i] = new string[3];
+                    for (int j = 0; j < 3; j++)
                     {
-                        innerData[i] = match.Groups[i + 1].Value;
+                        data.SpirometryData[i][j] = match.Groups[j + 1].Value;
                     }
-
-                    var prop = typeof(ReportData).GetProperty(capture.Properties[0]);
-                    prop.SetValue(data, innerData);
 
                     lines.Remove(match.Value);
                 }
