@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace pdf2rtf
 {
@@ -14,7 +10,7 @@ namespace pdf2rtf
         public static void Export(ReportData data, string filePath)
         {
             var templateName = GetTemplateName(data);
-            var template = new StringBuilder(File.ReadAllText(templateName));
+            var template = new StringBuilder(File.ReadAllText(Path.Combine("Templates", templateName)));
 
             var titleProps = typeof(ReportData).GetProperties(BindingFlags.Public | BindingFlags.Instance);
             for (int i = 0; i < titleProps.Length; i++)
@@ -53,7 +49,6 @@ namespace pdf2rtf
             template.Replace($"#DType#", dtype);
 
             File.WriteAllText(filePath, template.ToString());
-            Process.Start(filePath);
         }
 
         private static string GetTemplateName(ReportData data)

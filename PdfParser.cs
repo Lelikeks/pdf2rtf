@@ -1,9 +1,8 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace pdf2rtf
@@ -61,9 +60,9 @@ namespace pdf2rtf
             new TextCapture(@"Hb \[mmol/L\] (.+) (.+) (.+%|-)"),
         };
 
-        public static ReportData Parse(string fileName)
+        public static ReportData Parse(Stream fileStream)
         {
-            var reader = new PdfReader(fileName);
+            var reader = new PdfReader(fileStream);
             var text = PdfTextExtractor.GetTextFromPage(reader, 1);
             var lines = text.Split('\n').ToList();
 

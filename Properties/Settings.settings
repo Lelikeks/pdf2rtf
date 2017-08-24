@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="pdf2rtf.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IncomingPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\000\incoming</Value>
+    </Setting>
+    <Setting Name="OutgoingPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\000\outgoing</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
