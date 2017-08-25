@@ -40,5 +40,14 @@ namespace pdf2rtf.Properties {
                 return ((string)(this["OutgoingPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\000\\processed")]
+        public string ProcessedPath {
+            get {
+                return ((string)(this["ProcessedPath"]));
+            }
+        }
     }
 }

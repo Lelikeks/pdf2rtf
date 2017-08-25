@@ -48,6 +48,14 @@ namespace pdf2rtf
             }
             template.Replace($"#DType#", dtype);
 
+            if (data.DiffusionType == DiffusionType.None)
+            {
+                var str = template.ToString();
+                var startDiffusion = str.IndexOf(@"\ul\b DIFFUSION\b0\par");
+                var finishDiffusion = str.IndexOf(@"\b Technician notes:");
+                template.Remove(startDiffusion, finishDiffusion - startDiffusion);
+            }
+
             File.WriteAllText(filePath, template.ToString());
         }
 

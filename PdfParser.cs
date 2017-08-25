@@ -12,7 +12,7 @@ namespace pdf2rtf
         static TextCapture[] _simpleCaptures =
         {
             new TextCapture("Patient Id *(.*) Visit ID *(.*)", nameof(ReportData.PatientId), nameof(ReportData.VisitID)),
-            new TextCapture("Last name *(.*) Smoker *(.*)", nameof(ReportData.LastName), nameof(ReportData.Smoker)),
+            new TextCapture("Last name *(.*?) Smoker *(.*)", nameof(ReportData.LastName), nameof(ReportData.Smoker)),
             new TextCapture("First name *(.*) Pack years *(.*)", nameof(ReportData.FirstName), nameof(ReportData.PackYears)),
             new TextCapture("Date of birth *(.*) BMI *(.*)", nameof(ReportData.DateOfBirth), nameof(ReportData.BMI)),
             new TextCapture("Age *(.*) Gender *(.*)", nameof(ReportData.Age), nameof(ReportData.Gender)),
@@ -119,7 +119,7 @@ namespace pdf2rtf
                         data.AmbientData[num] = new AmbientData
                         {
                             DateTime = match.Groups[1].Value,
-                            Ambient = match.Groups[2].Value
+                            Ambient = match.Groups[2].Value.Replace("°", "\\'b0"),
                         };
                         lines.Remove(match.Value);
                         num++;
@@ -134,7 +134,7 @@ namespace pdf2rtf
                     new AmbientData
                     {
                         DateTime = match.Groups[1].Value,
-                        Ambient = match.Groups[2].Value,
+                        Ambient = match.Groups[2].Value.Replace("°", "\\'b0"),
                     }
                 };
                 lines.Remove(match.Value);

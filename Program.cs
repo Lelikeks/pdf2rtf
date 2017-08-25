@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using pdf2rtf.Properties;
 
 namespace pdf2rtf
 {
@@ -12,11 +13,21 @@ namespace pdf2rtf
         static ConcurrentDictionary<string, bool> FilesQueue = new ConcurrentDictionary<string, bool>();
         static ConcurrentDictionary<string, int> TryCounter = new ConcurrentDictionary<string, int>();
 
+        static Settings Settings
+        {
+            get
+            {
+                return Properties.Settings.Default;
+            }
+        }
+
         static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
             Trace.Listeners.Add(new TextWriterTraceListener("pdf2rtf.log"));
             Trace.AutoFlush = true;
+
+            Console.WriteLine($"start monitoring directory {Settings.IncomingPath}, press enter to exit ...");
 
             for (int i = 0; i < 3; i++)
             {
@@ -54,7 +65,7 @@ namespace pdf2rtf
 
             var watcher = new FileSystemWatcher
             {
-                Path = Properties.Settings.Default.IncomingPath,
+                Path = Settings.IncomingPath,
                 Filter = "*.pdf"
             };
             watcher.Created += (sender, e) =>
@@ -70,7 +81,7 @@ namespace pdf2rtf
 
         private static void ReadDirectory()
         {
-            foreach (var file in Directory.GetFiles(Properties.Settings.Default.IncomingPath, "*.pdf"))
+            foreach (var file in Directory.GetFiles(Settings.IncomingPath, "*.pdf"))
             {
                 if (!TryCounter.TryGetValue(file, out int attempts) || attempts < 5)
                 {
@@ -85,35 +96,40 @@ namespace pdf2rtf
             {
                 try
                 {
-                    Trace.WriteLine($"start processing {filePath}");
+                    Trace.WriteLine($"start processing {Path.GetFileName(filePath)}");
 
                     ReportData data;
                     using (var fileStream = await GetFileStream(filePath))
                     {
                         data = PdfParser.Parse(fileStream);
                     }
-                    var fileName = Path.GetFileNameWithoutExtension(filePath) + ".rtf";
-                    RtfExporter.Export(data, $@"{Properties.Settings.Default.OutgoingPath}\{fileName}");
-                    await DeleteFile(filePath);
+                    var fileName = GetSafeFilename($"{data.PatientId}_{data.LastName}_{data.FirstName}.rtf");
+                    RtfExporter.Export(data, $@"{Settings.OutgoingPath}\{fileName}");
+                    await MoveFile(filePath, Path.Combine(Settings.ProcessedPath, Path.GetFileName(filePath)));
 
                     Trace.WriteLine($"results saved to {fileName}");
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"following error occured processing file {filePath}: {ex}");
+                    Trace.WriteLine($"following error occured processing file {Path.GetFileName(filePath)}: {ex}");
                     return false;
                 }
             });
         }
 
-        private static async Task DeleteFile(string filePath)
+        public static string GetSafeFilename(string filename)
+        {
+            return string.Join("_", filename.Split(Path.GetInvalidFileNameChars()));
+        }
+
+        private static async Task MoveFile(string source, string destination)
         {
             for (int i = 0; i < 100; i++)
             {
                 try
                 {
-                    File.Delete(filePath);
+                    File.Move(source, destination);
                     return;
                 }
                 catch

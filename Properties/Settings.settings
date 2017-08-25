@@ -8,5 +8,8 @@
     <Setting Name="OutgoingPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">D:\000\outgoing</Value>
     </Setting>
+    <Setting Name="ProcessedPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">D:\000\processed</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
