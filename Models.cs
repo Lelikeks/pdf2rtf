@@ -43,6 +43,7 @@
         public string BMI { get; set; }
         public string Gender { get; set; }
         public string Weight { get; set; }
+        public string Technician { get; set; }
         public string Ward { get; set; }
         public AmbientData[] AmbientData { get; set; }
         public string[][] SpirometryData { get; set; }

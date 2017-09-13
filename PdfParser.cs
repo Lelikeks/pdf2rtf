@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,18 +18,18 @@ namespace pdf2rtf
             new TextCapture("Date of birth *(.*) BMI *(.*)", nameof(ReportData.DateOfBirth), nameof(ReportData.BMI)),
             new TextCapture("Age *(.*) Gender *(.*)", nameof(ReportData.Age), nameof(ReportData.Gender)),
             new TextCapture("Height *(.*) Weight *(.*)", nameof(ReportData.Height), nameof(ReportData.Weight)),
-            new TextCapture("History *(.*)", nameof(ReportData.History)),
+            new TextCapture(@"History\s*(.*?)\s*(?:Technician\s*(.*))?$", nameof(ReportData.History), nameof(ReportData.Technician)),
             new TextCapture("Physician *(.*) Ward *(.*)", nameof(ReportData.Physician), nameof(ReportData.Ward)),
             new TextCapture("Insurance *(.*)", nameof(ReportData.Insurance)),
         };
 
         static TextCapture[] _ambientCaptures =
         {
-            new TextCapture("Pre: (.+) Ambient: (.+%)"),
-            new TextCapture("Post: (.+) Ambient: (.+%)"),
+            new TextCapture("Pre: (.+(?:AM|PM)).*Ambient: (.+%)"),
+            new TextCapture("Post: (.+(?:AM|PM)).*Ambient: (.+%)"),
         };
 
-        static Regex _ambientMeasured = new Regex("Measured: (.+) Ambient: (.+%)");
+        static Regex _ambientMeasured = new Regex("Measured: (.+(?:AM|PM)).*Ambient: (.+%)");
 
         static TextCapture[] _spirometrySixCaptures =
         {
@@ -74,29 +75,40 @@ namespace pdf2rtf
             ParseDiffusion(data, lines);
             ParseNotes(data, lines);
 
+            CapitalizeGender(data);
+
             return data;
+        }
+
+        private static void CapitalizeGender(ReportData data)
+        {
+            if (data.Gender != null && data.Gender.Length > 0)
+            {
+                if (data.Gender.Length == 1)
+                {
+                    data.Gender = data.Gender.ToUpper();
+                }
+                else
+                {
+                    data.Gender = char.ToUpper(data.Gender[0]) + data.Gender.Substring(1, data.Gender.Length - 1);
+                }
+            }
         }
 
         private static void ParseNotes(ReportData data, List<string> lines)
         {
-            var line = lines.FirstOrDefault(l => l == "Technician notes");
-            if (line != null)
+            var notes = lines.IndexOf("Technician notes");
+            var interpretation = lines.IndexOf("Interpretation", notes > -1 ? notes : 0);
+
+            if (notes > -1 && interpretation > notes + 1 && notes < lines.Count - 1)
             {
-                var index = lines.IndexOf(line);
-                if (lines.Count > index + 1 && lines[index + 1] != "Interpretation")
-                {
-                    data.TechnicianNotes = lines[index + 1];
-                }
+                var end = interpretation > -1 ? interpretation : lines.Count;
+                data.TechnicianNotes = lines.GetRange(notes + 1, end - notes - 1).Aggregate((o, n) => o + n);
             }
 
-            line = lines.FirstOrDefault(l => l == "Interpretation");
-            if (line != null)
+            if (interpretation > -1 && interpretation < lines.Count - 3)
             {
-                var index = lines.IndexOf(line);
-                for (int i = index + 1; i < lines.Count - 2; i++)
-                {
-                    data.Interpretation += lines[i];
-                }
+                data.Interpretation = lines.GetRange(interpretation + 1, lines.Count - interpretation - 3).Aggregate((o, n) => o + n);
             }
         }
 

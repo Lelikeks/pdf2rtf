@@ -129,6 +129,10 @@ namespace pdf2rtf
             {
                 try
                 {
+                    if (File.Exists(destination))
+                    {
+                        File.Delete(destination);
+                    }
                     File.Move(source, destination);
                     return;
                 }
