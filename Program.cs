@@ -5,6 +5,9 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using pdf2rtf.Properties;
+using System.Configuration;
+using System.Text;
+using System.Collections.Generic;
 
 namespace pdf2rtf
 {
@@ -17,7 +20,7 @@ namespace pdf2rtf
         {
             get
             {
-                return Properties.Settings.Default;
+                return Settings.Default;
             }
         }
 
@@ -27,7 +30,13 @@ namespace pdf2rtf
             Trace.Listeners.Add(new TextWriterTraceListener("pdf2rtf.log"));
             Trace.AutoFlush = true;
 
-            Console.WriteLine($"start monitoring directory {Settings.IncomingPath}, press enter to exit ...");
+            if (!CheckFolders())
+            {
+                Console.Read();
+                return;
+            }
+
+            Console.WriteLine($"start monitoring folder {Settings.InputFolder}, press enter to exit ...");
 
             for (int i = 0; i < 3; i++)
             {
@@ -65,7 +74,7 @@ namespace pdf2rtf
 
             var watcher = new FileSystemWatcher
             {
-                Path = Settings.IncomingPath,
+                Path = Settings.InputFolder,
                 Filter = "*.pdf"
             };
             watcher.Created += (sender, e) =>
@@ -79,9 +88,45 @@ namespace pdf2rtf
             Console.Read();
         }
 
+        private static bool CheckFolders()
+        {
+            var empty = new List<string>();
+            if (string.IsNullOrEmpty(Settings.InputFolder))
+            {
+                empty.Add("InputFolder");
+            }
+            if (string.IsNullOrEmpty(Settings.OutputFolder))
+            {
+                empty.Add("OutputFolder");
+            }
+            if (string.IsNullOrEmpty(Settings.ProcessedFolder))
+            {
+                empty.Add("ProcessedFolder");
+            }
+            if (empty.Count > 0)
+            {
+                Console.WriteLine($"please set the following configuration parameters: {empty.Aggregate((o, n) => o + ", " + n)}");
+                return false;
+            }
+
+            if (!Directory.Exists(Settings.InputFolder))
+            {
+                Directory.CreateDirectory(Settings.InputFolder);
+            }
+            if (!Directory.Exists(Settings.OutputFolder))
+            {
+                Directory.CreateDirectory(Settings.OutputFolder);
+            }
+            if (!Directory.Exists(Settings.ProcessedFolder))
+            {
+                Directory.CreateDirectory(Settings.ProcessedFolder);
+            }
+            return true;
+        }
+
         private static void ReadDirectory()
         {
-            foreach (var file in Directory.GetFiles(Settings.IncomingPath, "*.pdf"))
+            foreach (var file in Directory.GetFiles(Settings.InputFolder, "*.pdf"))
             {
                 if (!TryCounter.TryGetValue(file, out int attempts) || attempts < 5)
                 {
@@ -104,8 +149,8 @@ namespace pdf2rtf
                         data = PdfParser.Parse(fileStream);
                     }
                     var fileName = GetSafeFilename($"{data.PatientId}_{data.LastName}_{data.FirstName}.rtf");
-                    RtfExporter.Export(data, $@"{Settings.OutgoingPath}\{fileName}");
-                    await MoveFile(filePath, Path.Combine(Settings.ProcessedPath, Path.GetFileName(filePath)));
+                    RtfExporter.Export(data, $@"{Settings.OutputFolder}\{fileName}");
+                    await MoveFile(filePath, Path.Combine(Settings.ProcessedFolder, Path.GetFileName(filePath)));
 
                     Trace.WriteLine($"results saved to {fileName}");
                     return true;

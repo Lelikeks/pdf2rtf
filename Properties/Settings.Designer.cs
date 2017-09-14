@@ -25,28 +25,28 @@ namespace pdf2rtf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\000\\incoming")]
-        public string IncomingPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InputFolder {
             get {
-                return ((string)(this["IncomingPath"]));
+                return ((string)(this["InputFolder"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\000\\outgoing")]
-        public string OutgoingPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string OutputFolder {
             get {
-                return ((string)(this["OutgoingPath"]));
+                return ((string)(this["OutputFolder"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\000\\processed")]
-        public string ProcessedPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProcessedFolder {
             get {
-                return ((string)(this["ProcessedPath"]));
+                return ((string)(this["ProcessedFolder"]));
             }
         }
     }
