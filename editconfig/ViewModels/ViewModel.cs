@@ -6,9 +6,9 @@ using System.Xml.XPath;
 
 namespace editconfig
 {
-    class ViewModel : INotifyPropertyChanged
+    internal class ViewModel : INotifyPropertyChanged
     {
-        const string ConfigPath = "pdf2rtf.exe.config";
+        private const string ConfigPath = "pdf2rtf.exe.config";
 
         private bool _hasChanges;
 
@@ -32,7 +32,7 @@ namespace editconfig
         private string _inputFolder;
         public string InputFolder
         {
-            get { return _inputFolder; }
+            get => _inputFolder;
             set
             {
                 if (_inputFolder != value)
@@ -48,7 +48,7 @@ namespace editconfig
         private string _outputFolder;
         public string OutputFolder
         {
-            get { return _outputFolder; }
+            get => _outputFolder;
             set
             {
                 if (_outputFolder != value)
@@ -64,7 +64,7 @@ namespace editconfig
         private string _processedFolder;
         public string ProcessedFolder
         {
-            get { return _processedFolder; }
+            get => _processedFolder;
             set
             {
                 if (_processedFolder != value)
@@ -77,7 +77,7 @@ namespace editconfig
             }
         }
 
-        Command _saveCommand;
+        private Command _saveCommand;
         public ICommand SaveCommand
         {
             get

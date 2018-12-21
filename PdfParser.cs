@@ -1,6 +1,5 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

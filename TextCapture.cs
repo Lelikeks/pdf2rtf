@@ -2,9 +2,10 @@
 
 namespace pdf2rtf
 {
-    class TextCapture
+    internal class TextCapture
     {
-        private Regex _regex { get; set; }
+        private readonly Regex _regex;
+
         public string[] Properties { get; set; }
 
         public TextCapture(string regex, params string[] properties)

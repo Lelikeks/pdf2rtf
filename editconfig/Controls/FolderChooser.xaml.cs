@@ -15,8 +15,8 @@ namespace editconfig
 
         public string SelectedFolder
         {
-            get { return (string)GetValue(SelectedFolderProperty); }
-            set { SetValue(SelectedFolderProperty, value); }
+            get => (string)GetValue(SelectedFolderProperty);
+            set => SetValue(SelectedFolderProperty, value);
         }
 
         public static readonly DependencyProperty SelectedFolderProperty = DependencyProperty.Register("SelectedFolder", typeof(string), typeof(FolderChooser), new PropertyMetadata(null));

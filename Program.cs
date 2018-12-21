@@ -5,26 +5,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
 using pdf2rtf.Properties;
-using System.Configuration;
-using System.Text;
 using System.Collections.Generic;
 
 namespace pdf2rtf
 {
-    class Program
+    internal class Program
     {
-        static ConcurrentDictionary<string, bool> FilesQueue = new ConcurrentDictionary<string, bool>();
-        static ConcurrentDictionary<string, int> TryCounter = new ConcurrentDictionary<string, int>();
+        private static readonly ConcurrentDictionary<string, bool> FilesQueue = new ConcurrentDictionary<string, bool>();
+        private static readonly ConcurrentDictionary<string, int> TryCounter = new ConcurrentDictionary<string, int>();
 
-        static Settings Settings
-        {
-            get
-            {
-                return Settings.Default;
-            }
-        }
+        private static Settings Settings => Settings.Default;
 
-        static void Main(string[] args)
+        private static void Main()
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
             Trace.Listeners.Add(new TextWriterTraceListener("pdf2rtf.log"));
@@ -38,7 +30,7 @@ namespace pdf2rtf
 
             Console.WriteLine($"start monitoring folder {Settings.InputFolder}, press enter to exit ...");
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 Task.Run(async () =>
                 {
@@ -49,14 +41,14 @@ namespace pdf2rtf
                         {
                             if (await ProcessFile(ready.Key))
                             {
-                                FilesQueue.TryRemove(ready.Key, out bool value);
+                                FilesQueue.TryRemove(ready.Key, out var value);
                             }
                             else
                             {
                                 var attempts = TryCounter.AddOrUpdate(ready.Key, 1, (s, v) => v + 1);
                                 if (attempts > 4)
                                 {
-                                    FilesQueue.TryRemove(ready.Key, out bool value);
+                                    FilesQueue.TryRemove(ready.Key, out var value);
                                 }
                                 else
                                 {
@@ -128,14 +120,14 @@ namespace pdf2rtf
         {
             foreach (var file in Directory.GetFiles(Settings.InputFolder, "*.pdf"))
             {
-                if (!TryCounter.TryGetValue(file, out int attempts) || attempts < 5)
+                if (!TryCounter.TryGetValue(file, out var attempts) || attempts < 5)
                 {
                     FilesQueue.TryAdd(file, false);
                 }
             }
         }
 
-        private async static Task<bool> ProcessFile(string filePath)
+        private static async Task<bool> ProcessFile(string filePath)
         {
             return await Task.Run(async () =>
             {
@@ -170,7 +162,7 @@ namespace pdf2rtf
 
         private static async Task MoveFile(string source, string destination)
         {
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
                 try
                 {
@@ -194,7 +186,7 @@ namespace pdf2rtf
 
         private static async Task<FileStream> GetFileStream(string filePath)
         {
-            for (int i = 0; i < 100; i++)
+            for (var i = 0; i < 100; i++)
             {
                 try
                 {
@@ -209,7 +201,7 @@ namespace pdf2rtf
                     await Task.Delay(100);
                 }
             }
-            throw null;
+            throw new Exception();
         }
     }
 }
