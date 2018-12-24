@@ -1,20 +1,20 @@
 ﻿namespace pdf2rtf
 {
-    internal enum AmbientType
+    public enum AmbientType
     {
         Unknown,
         Measured,
         PrePost
     }
 
-    internal enum SpirometryType
+    public enum SpirometryType
     {
         Unknown,
         SixColumn,
         ThreeColumn
     }
 
-    internal enum DiffusionType
+    public enum DiffusionType
     {
         Unknown,
         None,
@@ -22,7 +22,7 @@
         RefPre
     }
 
-    internal class ReportData
+    public class ReportData
     {
         public AmbientType AmbientType { get; set; } = AmbientType.Unknown;
         public SpirometryType SpirometryType { get; set; } = SpirometryType.Unknown;
@@ -52,7 +52,7 @@
         public string Interpretation { get; set; }
     }
 
-    internal class AmbientData
+    public class AmbientData
     {
         public string DateTime { get; set; }
         public string Ambient { get; set; }

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace pdf2rtf
 {
-    class PdfParser
+    public class PdfParser
     {
         static TextCapture[] _simpleCaptures =
         {
@@ -59,6 +59,14 @@ namespace pdf2rtf
             new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-)"),
             new TextCapture(@"Hb \[mmol/L\] (.+) (.+) (.+%|-)"),
         };
+
+        public static ReportData Parse(string file)
+        {
+            using (var stream = File.OpenRead(file))
+            {
+                return Parse(stream);
+            }
+        }
 
         public static ReportData Parse(Stream fileStream)
         {

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace pdf2rtf
 {
-    internal class RtfExporter
+    public class RtfExporter
     {
         public static void Export(ReportData data, string filePath)
         {

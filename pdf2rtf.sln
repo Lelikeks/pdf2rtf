@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdf2rtf", "pdf2rtf.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "editconfig", "editconfig\editconfig.csproj", "{4EA6D1AE-0FA9-454E-A760-CF0BA64C4385}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdf2rtf.tests", "pdf2rtf.tests\pdf2rtf.tests.csproj", "{A2E5AF01-57DA-429B-99F9-1F9A86D2C8E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4EA6D1AE-0FA9-454E-A760-CF0BA64C4385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EA6D1AE-0FA9-454E-A760-CF0BA64C4385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EA6D1AE-0FA9-454E-A760-CF0BA64C4385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2E5AF01-57DA-429B-99F9-1F9A86D2C8E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2E5AF01-57DA-429B-99F9-1F9A86D2C8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2E5AF01-57DA-429B-99F9-1F9A86D2C8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2E5AF01-57DA-429B-99F9-1F9A86D2C8E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
