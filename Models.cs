@@ -10,16 +10,15 @@
     public enum SpirometryType
     {
         Unknown,
-        SixColumn,
-        ThreeColumn
+        EightColumn,
+        FiveColumn
     }
 
     public enum DiffusionType
     {
         Unknown,
         None,
-        RefPost,
-        RefPre
+        Present
     }
 
     public class ReportData

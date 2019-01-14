@@ -24,30 +24,22 @@ namespace pdf2rtf
             }
             for (var i = 0; i < 6; i++)
             {
-                for (var j = 0; j < (data.SpirometryType == SpirometryType.SixColumn ? 6 : 3); j++)
+                for (var j = 0; j < (data.SpirometryType == SpirometryType.EightColumn ? 8 : 5); j++)
                 {
                     template.Replace($"#s{i}{j}#", data.SpirometryData[i][j]);
                 }
-                if (data.DiffusionType != DiffusionType.None)
+            }
+
+            if (data.DiffusionType != DiffusionType.None)
+            {
+                for (var i = 0; i < 3; i++)
                 {
-                    for (var j = 0; j < 3; j++)
+                    for (var j = 0; j < 5; j++)
                     {
                         template.Replace($"#d{i}{j}#", data.DiffusionData[i][j]);
                     }
                 }
             }
-
-            var dtype = "";
-            switch (data.DiffusionType)
-            {
-                case DiffusionType.RefPre:
-                    dtype = "Pre";
-                    break;
-                case DiffusionType.RefPost:
-                    dtype = "Post";
-                    break;
-            }
-            template.Replace($"#DType#", dtype);
 
             if (data.DiffusionType == DiffusionType.None)
             {
@@ -64,14 +56,14 @@ namespace pdf2rtf
         {
             switch (data.AmbientType)
             {
-                case AmbientType.PrePost when data.SpirometryType == SpirometryType.SixColumn:
-                    return "LFX Report_template_amb_6col.rtf";
-                case AmbientType.PrePost when data.SpirometryType == SpirometryType.ThreeColumn:
-                    return "LFX Report_template_amb_3col.rtf";
-                case AmbientType.Measured when data.SpirometryType == SpirometryType.SixColumn:
-                    return "LFX Report_template_measured_6col.rtf";
-                case AmbientType.Measured when data.SpirometryType == SpirometryType.ThreeColumn:
-                    return "LFX Report_template_measured_3col.rtf";
+                case AmbientType.PrePost when data.SpirometryType == SpirometryType.EightColumn:
+                    return "LFX Report_template_amb_8col.rtf";
+                case AmbientType.PrePost when data.SpirometryType == SpirometryType.FiveColumn:
+                    return "LFX Report_template_amb_5col.rtf";
+                case AmbientType.Measured when data.SpirometryType == SpirometryType.EightColumn:
+                    return "LFX Report_template_measured_8col.rtf";
+                case AmbientType.Measured when data.SpirometryType == SpirometryType.FiveColumn:
+                    return "LFX Report_template_measured_5col.rtf";
                 default:
                     throw new Exception("Cannot find template for this file");
             }

@@ -30,34 +30,31 @@ namespace pdf2rtf
 
         static Regex _ambientMeasured = new Regex("Measured: (.+(?:AM|PM)).*Ambient: (.+%)");
 
-        static TextCapture[] _spirometrySixCaptures =
+        static TextCapture[] _spirometryEightCaptures =
         {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%F) \[%\](.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax) \[%\](.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
         };
 
-        static TextCapture[] _spirometryThreeCaptures =
+        static TextCapture[] _spirometryFiveCaptures =
 {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"FEV1%I \[%\](.+) (.+) (.+%|-)"),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%VCmax) \[%\](.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
         };
 
         static TextCapture[] _diffusionCaptures =
         {
-            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"DLCOc \[ml/min/mmHg\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"KCOc \[ml/min/mmHg/L\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-)"),
-            new TextCapture(@"Hb \[mmol/L\] (.+) (.+) (.+%|-)"),
+            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-) (.+) (.+)"),
         };
 
         public static ReportData Parse(string file)
@@ -113,9 +110,9 @@ namespace pdf2rtf
                 data.TechnicianNotes = lines.GetRange(notes + 1, end - notes - 1).Aggregate((o, n) => o + n);
             }
 
-            if (interpretation > -1 && interpretation < lines.Count - 3)
+            if (interpretation > -1 && interpretation < lines.Count - 4)
             {
-                data.Interpretation = lines.GetRange(interpretation + 1, lines.Count - interpretation - 3).Aggregate((o, n) => o + n);
+                data.Interpretation = lines.GetRange(interpretation + 1, lines.Count - interpretation - 4).Aggregate((o, n) => o + n);
             }
         }
 
@@ -167,7 +164,7 @@ namespace pdf2rtf
                 var match = lines.Select(l => capture.Match(l)).FirstOrDefault(m => m.Success);
                 if (match != null)
                 {
-                    for (int i = 0; i < capture.Properties.Length; i++)
+                    for (var i = 0; i < capture.Properties.Length; i++)
                     {
                         var prop = typeof(ReportData).GetProperty(capture.Properties[i]);
                         prop.SetValue(data, match.Groups[i + 1].Value);
@@ -179,8 +176,8 @@ namespace pdf2rtf
 
         private static void ParseDiffusion(ReportData data, List<string> lines)
         {
-            data.DiffusionData = new string[6][];
-            for (int i = 0; i < 6; i++)
+            data.DiffusionData = new string[_diffusionCaptures.Length][];
+            for (var i = 0; i < _diffusionCaptures.Length; i++)
             {
                 var match = lines.Select(l => _diffusionCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match == null)
@@ -191,8 +188,8 @@ namespace pdf2rtf
                 }
                 else
                 {
-                    data.DiffusionData[i] = new string[3];
-                    for (int j = 0; j < 3; j++)
+                    data.DiffusionData[i] = new string[5];
+                    for (var j = 0; j < 5; j++)
                     {
                         data.DiffusionData[i][j] = match.Groups[j + 1].Value;
                     }
@@ -201,28 +198,21 @@ namespace pdf2rtf
                 }
             }
 
-            if (lines.Any(l => l == "Ref Post % Ref"))
-            {
-                data.DiffusionType = DiffusionType.RefPost;
-            }
-            else if (lines.Any(l => l == "Ref Pre % Ref"))
-            {
-                data.DiffusionType = DiffusionType.RefPre;
-            }
+            data.DiffusionType = DiffusionType.Present;
         }
 
         private static void ParseSpirometry(ReportData data, List<string> lines)
         {
-            data.SpirometryData = new string[6][];
-            for (int i = 0; i < 6; i++)
+            data.SpirometryData = new string[_spirometryEightCaptures.Length][];
+            for (var i = 0; i < _spirometryEightCaptures.Length; i++)
             {
-                var match = lines.Select(l => _spirometrySixCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
+                var match = lines.Select(l => _spirometryEightCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match != null)
                 {
-                    data.SpirometryType = SpirometryType.SixColumn;
+                    data.SpirometryType = SpirometryType.EightColumn;
 
-                    data.SpirometryData[i] = new string[6];
-                    for (int j = 0; j < 6; j++)
+                    data.SpirometryData[i] = new string[8];
+                    for (var j = 0; j < 8; j++)
                     {
                         data.SpirometryData[i][j] = match.Groups[j + 1].Value;
                     }
@@ -230,20 +220,20 @@ namespace pdf2rtf
                     lines.Remove(match.Value);
                 }
             }
-            if (data.SpirometryType == SpirometryType.SixColumn)
+            if (data.SpirometryType == SpirometryType.EightColumn)
             {
                 return;
             }
 
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < _spirometryEightCaptures.Length; i++)
             {
-                var match = lines.Select(l => _spirometryThreeCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
+                var match = lines.Select(l => _spirometryFiveCaptures[i].Match(l)).FirstOrDefault(m => m.Success);
                 if (match != null)
                 {
-                    data.SpirometryType = SpirometryType.ThreeColumn;
+                    data.SpirometryType = SpirometryType.FiveColumn;
 
-                    data.SpirometryData[i] = new string[3];
-                    for (int j = 0; j < 3; j++)
+                    data.SpirometryData[i] = new string[5];
+                    for (var j = 0; j < 5; j++)
                     {
                         data.SpirometryData[i][j] = match.Groups[j + 1].Value;
                     }
