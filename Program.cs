@@ -30,7 +30,7 @@ namespace pdf2rtf
 
             Console.WriteLine($"start monitoring folder {Settings.InputFolder}, press enter to exit ...");
 
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < 1; i++)
             {
                 Task.Run(async () =>
                 {
