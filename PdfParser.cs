@@ -32,29 +32,29 @@ namespace pdf2rtf
 
         static TextCapture[] _spirometryEightCaptures =
         {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax) \[%\](.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax) \[%\](.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
         };
 
         static TextCapture[] _spirometryFiveCaptures =
 {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+%|-) (.+) (.+)"),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+%|-) (.+) (.+)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%VCmax) \[%\](.+) (.+) (.+%|-) (.+) (.+)"),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+%|-) (.+) (.+)"),
+            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"FVC \[L\] (.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%VCmax) \[%\](.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
         };
 
         static TextCapture[] _diffusionCaptures =
         {
-            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+%|-) ([^ ]+)(?:$| ([^ ]+))"),
-            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+%|-) ([^ ]+)(?:$| ([^ ]+))"),
-            new TextCapture(@"VA \[L\] (.+) (.+) (.+%|-) ([^ ]+)(?:$| ([^ ]+))"),
+            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
+            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
+            new TextCapture(@"VA \[L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
         };
 
         public static ReportData Parse(string file)
