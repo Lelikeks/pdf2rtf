@@ -67,13 +67,13 @@ namespace pdf2rtf.tests
 			Assert.Equal("6.07", data.SpirometryData[1][5]);
 			Assert.Equal("108 %", data.SpirometryData[1][6]);
 			Assert.Equal("-1 %", data.SpirometryData[1][7]);
-			Assert.Equal(" 81.81", data.SpirometryData[2][0]);
-			Assert.Equal("70.05", data.SpirometryData[2][1]);
+			Assert.Equal(" 82.63", data.SpirometryData[2][0]);
+			Assert.Equal("71.70", data.SpirometryData[2][1]);
 			Assert.Equal("78.18", data.SpirometryData[2][2]);
-			Assert.Equal("96 %", data.SpirometryData[2][3]);
-			Assert.Equal("-0.5", data.SpirometryData[2][4]);
+			Assert.Equal("95 %", data.SpirometryData[2][3]);
+			Assert.Equal("-0.4", data.SpirometryData[2][4]);
 			Assert.Equal("77.98", data.SpirometryData[2][5]);
-			Assert.Equal("95 %", data.SpirometryData[2][6]);
+			Assert.Equal("94 %", data.SpirometryData[2][6]);
 			Assert.Equal("0 %", data.SpirometryData[2][7]);
 			Assert.Equal("4.66", data.SpirometryData[3][0]);
 			Assert.Equal("2.90", data.SpirometryData[3][1]);
