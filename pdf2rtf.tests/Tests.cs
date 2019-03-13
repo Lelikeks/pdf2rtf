@@ -122,6 +122,7 @@ namespace pdf2rtf.tests
 			var temp = Path.GetTempFileName();
 			RtfExporter.Export(data, temp);
 			Assert.Equal(File.ReadAllText(@"..\..\ReferenceRtfs\_Muster__Ganshorn_TP_HeartscopeLFT_2016-12-4_20-42.rtf"), File.ReadAllText(temp));
+
 			#endregion
 		}
 
