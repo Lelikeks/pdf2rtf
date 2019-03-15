@@ -32,12 +32,12 @@ namespace pdf2rtf
 
         static TextCapture[] _spirometryEightCaptures =
         {
-            new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"FVC \[L\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax|FEV1%FVC) \[%\](.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
-            new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+) (.+) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FEV 1 \[L\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"FVC \[L\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax|FEV1%FVC) \[%\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MMEF \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"MEF 50 \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"PEF \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
         };
 
         static TextCapture[] _spirometryFiveCaptures =
@@ -110,9 +110,20 @@ namespace pdf2rtf
                 data.TechnicianNotes = lines.GetRange(notes + 1, end - notes - 1).Aggregate((o, n) => o + n);
             }
 
-            if (interpretation > -1 && interpretation < lines.Count - 4)
+            if (interpretation > -1 && interpretation < lines.Count - 1)
             {
-                data.Interpretation = lines.GetRange(interpretation + 1, lines.Count - interpretation - 4).Aggregate((o, n) => o + n);
+                var ganshorn = lines.LastOrDefault(x => x.Contains("GANSHORN"));
+                if (ganshorn == null)
+                {
+                    if (lines.Count - interpretation > 1)
+                        data.Interpretation = lines.GetRange(interpretation + 1, lines.Count - interpretation - 1).Aggregate((o, n) => o + n);
+                }
+                else
+                {
+                    var footer = lines.IndexOf(ganshorn);
+                    if (footer - interpretation  > 1)
+                        data.Interpretation = lines.GetRange(interpretation + 1, footer - interpretation - 1).Aggregate((o, n) => o + n);
+                }
             }
         }
 
