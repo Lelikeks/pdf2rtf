@@ -320,6 +320,166 @@ namespace pdf2rtf.tests
 			#endregion
 		}
 
+		[Fact]
+		public void Test4()
+		{
+			var data = PdfParser.Parse(@"..\..\..\SampleData\SPIRO report.pdf");
+			#region TestData
+			Assert.Equal(AmbientType.PrePost, data.AmbientType);
+			Assert.Equal(SpirometryType.EightColumn, data.SpirometryType);
+			Assert.Equal(DiffusionType.None, data.DiffusionType);
+			Assert.Equal("KOMPA_A28032019", data.PatientId);
+			Assert.Equal("KOMPA", data.LastName);
+			Assert.Equal("Andrew", data.FirstName);
+			Assert.Equal("11/02/1977", data.DateOfBirth);
+			Assert.Equal("42 years", data.Age);
+			Assert.Equal("166.0 cm", data.Height);
+			Assert.Equal("Opinion of exposure to Asbestos", data.History);
+			Assert.Equal("Dr A Samadi", data.Physician);
+			Assert.Equal("", data.Insurance);
+			Assert.Equal("28.03.2019", data.VisitID);
+			Assert.Equal("Smoker", data.Smoker);
+			Assert.Equal("10.00", data.PackYears);
+			Assert.Equal("39.6", data.BMI);
+			Assert.Equal("Male", data.Gender);
+			Assert.Equal("109.0 kg", data.Weight);
+			Assert.Equal("SW", data.Technician);
+			Assert.Equal("Westgate medical centre", data.Ward);
+			Assert.Equal(2, data.AmbientData.Length);
+			Assert.Equal("28/03/2019 4:28 PM", data.AmbientData[0].DateTime);
+			Assert.Equal("26.8 \\'b0C   789.78 mmHg   40 %", data.AmbientData[0].Ambient);
+			Assert.Equal("28/03/2019 4:33 PM", data.AmbientData[1].DateTime);
+			Assert.Equal("26.7 \\'b0C   789.73 mmHg   40 %", data.AmbientData[1].Ambient);
+			Assert.Equal(6, data.SpirometryData.Length);
+			Assert.Equal("3.58", data.SpirometryData[0][0]);
+			Assert.Equal("2.83", data.SpirometryData[0][1]);
+			Assert.Equal("3.71", data.SpirometryData[0][2]);
+			Assert.Equal("104 %", data.SpirometryData[0][3]);
+			Assert.Equal("0.9", data.SpirometryData[0][4]);
+			Assert.Equal("3.97", data.SpirometryData[0][5]);
+			Assert.Equal("111 %", data.SpirometryData[0][6]);
+			Assert.Equal("7 %", data.SpirometryData[0][7]);
+			Assert.Equal("4.41", data.SpirometryData[1][0]);
+			Assert.Equal("3.50", data.SpirometryData[1][1]);
+			Assert.Equal("4.79", data.SpirometryData[1][2]);
+			Assert.Equal("109 %", data.SpirometryData[1][3]);
+			Assert.Equal("0.9", data.SpirometryData[1][4]);
+			Assert.Equal("4.91", data.SpirometryData[1][5]);
+			Assert.Equal("111 %", data.SpirometryData[1][6]);
+			Assert.Equal("3 %", data.SpirometryData[1][7]);
+			Assert.Equal("81.27", data.SpirometryData[2][0]);
+			Assert.Equal("70.68", data.SpirometryData[2][1]);
+			Assert.Equal("77.48", data.SpirometryData[2][2]);
+			Assert.Equal("95 %", data.SpirometryData[2][3]);
+			Assert.Equal("0.0", data.SpirometryData[2][4]);
+			Assert.Equal("80.80", data.SpirometryData[2][5]);
+			Assert.Equal("99 %", data.SpirometryData[2][6]);
+			Assert.Equal("4 %", data.SpirometryData[2][7]);
+			Assert.Equal("3.57", data.SpirometryData[3][0]);
+			Assert.Equal("2.06", data.SpirometryData[3][1]);
+			Assert.Equal("3.06", data.SpirometryData[3][2]);
+			Assert.Equal("86 %", data.SpirometryData[3][3]);
+			Assert.Equal("0.3", data.SpirometryData[3][4]);
+			Assert.Equal("3.92", data.SpirometryData[3][5]);
+			Assert.Equal("110 %", data.SpirometryData[3][6]);
+			Assert.Equal("28 %", data.SpirometryData[3][7]);
+			Assert.Equal("4.64", data.SpirometryData[4][0]);
+			Assert.Equal("2.47", data.SpirometryData[4][1]);
+			Assert.Equal("3.57", data.SpirometryData[4][2]);
+			Assert.Equal("77 %", data.SpirometryData[4][3]);
+			Assert.Equal("-0.1", data.SpirometryData[4][4]);
+			Assert.Equal("4.55", data.SpirometryData[4][5]);
+			Assert.Equal("98 %", data.SpirometryData[4][6]);
+			Assert.Equal("28 %", data.SpirometryData[4][7]);
+			Assert.Equal("8.54", data.SpirometryData[5][0]);
+			Assert.Equal("6.55", data.SpirometryData[5][1]);
+			Assert.Equal("7.61", data.SpirometryData[5][2]);
+			Assert.Equal("89 %", data.SpirometryData[5][3]);
+			Assert.Equal("-0.6", data.SpirometryData[5][4]);
+			Assert.Equal("7.82", data.SpirometryData[5][5]);
+			Assert.Equal("92 %", data.SpirometryData[5][6]);
+			Assert.Equal("3 %", data.SpirometryData[5][7]);
+			Assert.Null(data.DiffusionData);
+			Assert.Equal("Patient was presented for the evaluation of lung function (opinion and management) after exposure to asbestos for 6 years in his line of business. He is a current smoker, smoke 20 cigarettes/day for 10 years. No asthma. Spiromtry technique was adequate and results are reproducible. ", data.TechnicianNotes);
+			Assert.Equal("/* Automatic Interpretation - Forced Spirometry - 4:28 PM: Spirometry results are within normal limits. /*/* Automatic Interpretation - Forced Spirometry - 4:33 PM: Spirometry results are within normal limits.There is no significant change following inhaled bronchodilator on this occasion. /*", data.Interpretation);
+			#endregion
+			#region TestRtf
+			var temp = Path.GetTempFileName();
+			RtfExporter.Export(data, temp);
+			Assert.Equal(File.ReadAllText(@"..\..\ReferenceRtfs\SPIRO report.rtf"), File.ReadAllText(temp));
+			#endregion
+		}
+
+		[Fact]
+		public void Test5()
+		{
+			var data = PdfParser.Parse(@"..\..\..\SampleData\Spiro with pre ventolin only.pdf");
+			#region TestData
+			Assert.Equal(AmbientType.Measured, data.AmbientType);
+			Assert.Equal(SpirometryType.FiveColumn, data.SpirometryType);
+			Assert.Equal(DiffusionType.None, data.DiffusionType);
+			Assert.Equal("AYSCOUGH_E28032019", data.PatientId);
+			Assert.Equal("AYSCOUGH", data.LastName);
+			Assert.Equal("Elisabeth", data.FirstName);
+			Assert.Equal("15/11/1943", data.DateOfBirth);
+			Assert.Equal("75 years", data.Age);
+			Assert.Equal("168.0 cm", data.Height);
+			Assert.Equal("?Asthma", data.History);
+			Assert.Equal("Dr T Kwok", data.Physician);
+			Assert.Equal("", data.Insurance);
+			Assert.Equal("28/03/2019", data.VisitID);
+			Assert.Equal("Ex Smoker", data.Smoker);
+			Assert.Equal("11.25", data.PackYears);
+			Assert.Equal("29.8", data.BMI);
+			Assert.Equal("Female", data.Gender);
+			Assert.Equal("84.0 kg", data.Weight);
+			Assert.Equal("SR", data.Technician);
+			Assert.Equal("", data.Ward);
+			Assert.Equal(1, data.AmbientData.Length);
+			Assert.Equal("28/03/2019 2:26 PM", data.AmbientData[0].DateTime);
+			Assert.Equal("28.4 \\'b0C   794.74 mmHg   37 %", data.AmbientData[0].Ambient);
+			Assert.Equal(6, data.SpirometryData.Length);
+			Assert.Equal("2.22", data.SpirometryData[0][0]);
+			Assert.Equal("1.58", data.SpirometryData[0][1]);
+			Assert.Equal("1.88", data.SpirometryData[0][2]);
+			Assert.Equal("85 %", data.SpirometryData[0][3]);
+			Assert.Equal("-0.9", data.SpirometryData[0][4]);
+			Assert.Equal("2.90", data.SpirometryData[1][0]);
+			Assert.Equal("2.07", data.SpirometryData[1][1]);
+			Assert.Equal("2.99", data.SpirometryData[1][2]);
+			Assert.Equal("103 %", data.SpirometryData[1][3]);
+			Assert.Equal("0.2", data.SpirometryData[1][4]);
+			Assert.Equal(" 77.27", data.SpirometryData[2][0]);
+			Assert.Equal("63.36", data.SpirometryData[2][1]);
+			Assert.Equal("62.89", data.SpirometryData[2][2]);
+			Assert.Equal("81 %", data.SpirometryData[2][3]);
+			Assert.Equal("-1.7", data.SpirometryData[2][4]);
+			Assert.Equal("1.78", data.SpirometryData[3][0]);
+			Assert.Equal("0.78", data.SpirometryData[3][1]);
+			Assert.Equal("0.92", data.SpirometryData[3][2]);
+			Assert.Equal("51 %", data.SpirometryData[3][3]);
+			Assert.Equal("-1.4", data.SpirometryData[3][4]);
+			Assert.Equal("3.40", data.SpirometryData[4][0]);
+			Assert.Equal("1.60", data.SpirometryData[4][1]);
+			Assert.Equal("1.19", data.SpirometryData[4][2]);
+			Assert.Equal("35 %", data.SpirometryData[4][3]);
+			Assert.Equal("-2.0", data.SpirometryData[4][4]);
+			Assert.Equal("5.88", data.SpirometryData[5][0]);
+			Assert.Equal("4.40", data.SpirometryData[5][1]);
+			Assert.Equal("5.42", data.SpirometryData[5][2]);
+			Assert.Equal("92 %", data.SpirometryData[5][3]);
+			Assert.Equal("-0.5", data.SpirometryData[5][4]);
+			Assert.Null(data.DiffusionData);
+			Assert.Equal("Patient mentioned she is an ex-smoker, smoked for 15 years, quit 40 years ago. Patient is on Spiriva, last use 24 hours prior to test. Patient is allergic to Salbutamol and as a results was only able to do Pre-Spirometry. GP confirmed that these results will be satisfactory. Results obtained were to the patients best ability.", data.TechnicianNotes);
+			Assert.Equal("/* Automatic Interpretation - Forced Spirometry - 2:26 PM: Spirometry results are within normal limits. /*", data.Interpretation);
+			#endregion
+			#region TestRtf
+			var temp = Path.GetTempFileName();
+			RtfExporter.Export(data, temp);
+			Assert.Equal(File.ReadAllText(@"..\..\ReferenceRtfs\Spiro with pre ventolin only.rtf"), File.ReadAllText(temp));
+			#endregion
+		}
+
 		private void GenerateCode(ReportData data)
 		{
 			var code = new StringBuilder();

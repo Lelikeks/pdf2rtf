@@ -34,7 +34,7 @@ namespace pdf2rtf
         {
             new TextCapture(@"FEV 1 \[L\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
             new TextCapture(@"FVC \[L\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax|FEV1%FVC) \[%\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax|FEV1%FVC) *\[%\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
             new TextCapture(@"MMEF \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
             new TextCapture(@"MEF 50 \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
             new TextCapture(@"PEF \[L/s\] (.+?|-) (.+?|-) (.+?|-) (.+%|-) *(.*?) (.+?|-) (.+%|-) (.+%|-)"),
@@ -44,7 +44,7 @@ namespace pdf2rtf
 {
             new TextCapture(@"FEV 1 \[L\] (.+) (.+) (.+) (.+%|-) (.+)"),
             new TextCapture(@"FVC \[L\] (.+) (.+) (.+) (.+%|-) (.+)"),
-            new TextCapture(@"(?:FEV1%I|FEV1%VCmax) \[%\](.+) (.+) (.+) (.+%|-) (.+)"),
+            new TextCapture(@"(?:FEV1%I|FEV1%F|FEV1%VCmax|FEV1%FVC) *\[%\](.+) (.+) (.+) (.+%|-) (.+)"),
             new TextCapture(@"MMEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
             new TextCapture(@"MEF 50 \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
             new TextCapture(@"PEF \[L/s\] (.+) (.+) (.+) (.+%|-) (.+)"),
