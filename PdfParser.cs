@@ -52,9 +52,9 @@ namespace pdf2rtf
 
         static TextCapture[] _diffusionCaptures =
         {
-            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
-            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
-            new TextCapture(@"VA \[L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+))"),
+            new TextCapture(@"DLCO \[ml/min/mmHg\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+)| +)"),
+            new TextCapture(@"KCO \[ml/min/mmHg/L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+)| +)"),
+            new TextCapture(@"VA \[L\] (.+) (.+) (.+) (.+%|-)(?:$| ([^ ]+)| +)"),
         };
 
         public static ReportData Parse(string file)

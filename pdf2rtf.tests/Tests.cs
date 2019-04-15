@@ -480,6 +480,111 @@ namespace pdf2rtf.tests
 			#endregion
 		}
 
+		[Fact]
+		public void Test6()
+		{
+			var data = PdfParser.Parse(@"..\..\..\SampleData\LFT report unable to convert.pdf");
+			#region TestData
+			Assert.Equal(AmbientType.PrePost, data.AmbientType);
+			Assert.Equal(SpirometryType.EightColumn, data.SpirometryType);
+			Assert.Equal(DiffusionType.Present, data.DiffusionType);
+			Assert.Equal("13042019-WARD_J", data.PatientId);
+			Assert.Equal("WARD", data.LastName);
+			Assert.Equal("James", data.FirstName);
+			Assert.Equal("8/11/2004", data.DateOfBirth);
+			Assert.Equal("14 years", data.Age);
+			Assert.Equal("174.0 cm", data.Height);
+			Assert.Equal("", data.History);
+			Assert.Equal("Dr J Wilson", data.Physician);
+			Assert.Equal("", data.Insurance);
+			Assert.Equal("13042019", data.VisitID);
+			Assert.Equal("Never Smoked", data.Smoker);
+			Assert.Equal("", data.PackYears);
+			Assert.Equal("20.5", data.BMI);
+			Assert.Equal("Male", data.Gender);
+			Assert.Equal("62.0 kg", data.Weight);
+			Assert.Equal("HA", data.Technician);
+			Assert.Equal("Medical One - Elwood", data.Ward);
+			Assert.Equal(2, data.AmbientData.Length);
+			Assert.Equal("13/04/2019 12:06 PM", data.AmbientData[0].DateTime);
+			Assert.Equal("25.5 \\'b0C   796.12 mmHg   50 %", data.AmbientData[0].Ambient);
+			Assert.Equal("13/04/2019 12:01 PM", data.AmbientData[1].DateTime);
+			Assert.Equal("25.3 \\'b0C   796.26 mmHg   50 %", data.AmbientData[1].Ambient);
+			Assert.Equal(6, data.SpirometryData.Length);
+			Assert.Equal("3.73", data.SpirometryData[0][0]);
+			Assert.Equal("1.57", data.SpirometryData[0][1]);
+			Assert.Equal("3.19", data.SpirometryData[0][2]);
+			Assert.Equal("86 %", data.SpirometryData[0][3]);
+			Assert.Equal("0.3", data.SpirometryData[0][4]);
+			Assert.Equal("3.89", data.SpirometryData[0][5]);
+			Assert.Equal("104 %", data.SpirometryData[0][6]);
+			Assert.Equal("22 %", data.SpirometryData[0][7]);
+			Assert.Equal("4.51", data.SpirometryData[1][0]);
+			Assert.Equal("1.96", data.SpirometryData[1][1]);
+			Assert.Equal("3.98", data.SpirometryData[1][2]);
+			Assert.Equal("88 %", data.SpirometryData[1][3]);
+			Assert.Equal("-0.6", data.SpirometryData[1][4]);
+			Assert.Equal("4.11", data.SpirometryData[1][5]);
+			Assert.Equal("91 %", data.SpirometryData[1][6]);
+			Assert.Equal("3 %", data.SpirometryData[1][7]);
+			Assert.Equal("83.40", data.SpirometryData[2][0]);
+			Assert.Equal("74.32", data.SpirometryData[2][1]);
+			Assert.Equal("80.12", data.SpirometryData[2][2]);
+			Assert.Equal("96 %", data.SpirometryData[2][3]);
+			Assert.Equal("2.5", data.SpirometryData[2][4]);
+			Assert.Equal("94.81", data.SpirometryData[2][5]);
+			Assert.Equal("114 %", data.SpirometryData[2][6]);
+			Assert.Equal("18 %", data.SpirometryData[2][7]);
+			Assert.Equal("4.17", data.SpirometryData[3][0]);
+			Assert.Equal("1.48", data.SpirometryData[3][1]);
+			Assert.Equal("3.46", data.SpirometryData[3][2]);
+			Assert.Equal("83 %", data.SpirometryData[3][3]);
+			Assert.Equal("0.7", data.SpirometryData[3][4]);
+			Assert.Equal("5.14", data.SpirometryData[3][5]);
+			Assert.Equal("123 %", data.SpirometryData[3][6]);
+			Assert.Equal("49 %", data.SpirometryData[3][7]);
+			Assert.Equal("4.58", data.SpirometryData[4][0]);
+			Assert.Equal("1.67", data.SpirometryData[4][1]);
+			Assert.Equal("3.69", data.SpirometryData[4][2]);
+			Assert.Equal("81 %", data.SpirometryData[4][3]);
+			Assert.Equal("0.7", data.SpirometryData[4][4]);
+			Assert.Equal("5.65", data.SpirometryData[4][5]);
+			Assert.Equal("123 %", data.SpirometryData[4][6]);
+			Assert.Equal("53 %", data.SpirometryData[4][7]);
+			Assert.Equal("7.51", data.SpirometryData[5][0]);
+			Assert.Equal("2.70", data.SpirometryData[5][1]);
+			Assert.Equal("3.80", data.SpirometryData[5][2]);
+			Assert.Equal("51 %", data.SpirometryData[5][3]);
+			Assert.Equal("-0.6", data.SpirometryData[5][4]);
+			Assert.Equal("6.06", data.SpirometryData[5][5]);
+			Assert.Equal("81 %", data.SpirometryData[5][6]);
+			Assert.Equal("59 %", data.SpirometryData[5][7]);
+			Assert.Equal(3, data.DiffusionData.Length);
+			Assert.Equal("28.07", data.DiffusionData[0][0]);
+			Assert.Equal("11.41", data.DiffusionData[0][1]);
+			Assert.Equal("22.79", data.DiffusionData[0][2]);
+			Assert.Equal("81 %", data.DiffusionData[0][3]);
+			Assert.Equal("-0.9", data.DiffusionData[0][4]);
+			Assert.Equal("- ", data.DiffusionData[1][0]);
+			Assert.Equal("-", data.DiffusionData[1][1]);
+			Assert.Equal("5.02", data.DiffusionData[1][2]);
+			Assert.Equal("-", data.DiffusionData[1][3]);
+			Assert.Equal("", data.DiffusionData[1][4]);
+			Assert.Equal("6.67", data.DiffusionData[2][0]);
+			Assert.Equal("6.67", data.DiffusionData[2][1]);
+			Assert.Equal("4.54", data.DiffusionData[2][2]);
+			Assert.Equal("68 %", data.DiffusionData[2][3]);
+			Assert.Equal("", data.DiffusionData[2][4]);
+			Assert.Equal("/* Automatic trial quality determination - Single Breath Diffusion - 12:06 PM: Trial1: Score B; Trial2: Score A /*Patient is a non-smoker and is currently on no respiritory medications. During the pre/post spiromtery and DLCO patient stated no struggle, however slight wheezing was observed. Overall fair effort and technique, best results obtained. ", data.TechnicianNotes);
+			Assert.Equal("/* Automatic Interpretation - Forced Spirometry - 11:51 AM: Spirometry results are within normal limits. /*/* Automatic Interpretation - Forced Spirometry - 12:01 PM: Spirometry results are within normal limits.There is a significant bronchodilator response. Suggestive of Asthma. /*/* Automatic Interpretation - Single Breath Diffusion - 12:06 PM: - /*", data.Interpretation);
+			#endregion
+			#region TestRtf
+			var temp = Path.GetTempFileName();
+			RtfExporter.Export(data, temp);
+			Assert.Equal(File.ReadAllText(@"..\..\ReferenceRtfs\LFT report unable to convert.rtf"), File.ReadAllText(temp));
+			#endregion
+		}
+
 		private void GenerateCode(ReportData data)
 		{
 			var code = new StringBuilder();
